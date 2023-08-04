@@ -1,0 +1,28 @@
+#include <Wire.h>
+#include <Adafruit_MLX90614.h>
+#include <SoftwareSerial.h>
+
+#define MLX_ADDRESS 0x5A // MLX90614 I2C Address
+Adafruit_MLX90614 mlx = Adafruit_MLX90614();
+
+SoftwareSerial mySerial(10, 11); // RX, TX
+
+void setup() {
+  Serial.begin(9600);
+  mySerial.begin(9600);
+
+  mlx.begin();
+}
+
+void loop() {
+  float ambient = mlx.readAmbientTempC();
+  float object = mlx.readObjectTempC();
+
+  Serial.print("Ambient: "); Serial.print(ambient); Serial.println(" °C");
+  Serial.print("Object: "); Serial.print(object); Serial.println(" °C");
+
+  mySerial.print("Ambient: "); mySerial.print(ambient); mySerial.println(" °C");
+  mySerial.print("Object: "); mySerial.print(object); mySerial.println(" °C");
+
+  delay(5000); // Adjust the delay as needed
+}
